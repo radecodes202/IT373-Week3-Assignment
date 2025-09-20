@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Announcements Site{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="hero-section bg-primary text-white p-5 rounded mb-4">
+            <h1 class="display-4">Welcome to Announcements</h1>
+            <p class="lead">Stay updated with the latest announcements and news.</p>
+            <a href="{% url 'announcement_list' %}" class="btn btn-light btn-lg">View All Announcements</a>
+        </div>
+
+        <h2 class="mb-3">Recent Announcements</h2>
+        {% if recent_announcements %}
+            <div class="row">
+                {% for announcement in recent_announcements %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ announcement.title }}</h5>
+                            <p class="card-text">{{ announcement.summary }}</p>
+                            <div class="card-text">
+                                <small class="text-muted">{{ announcement.created_at|date:"M d, Y" }}</small>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{% url 'announcement_detail' announcement.pk %}" 
+                               class="btn btn-primary btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h4>No announcements yet!</h4>
+                <p>Check back later for updates.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Total Announcements:</strong> {{ recent_announcements|length }}</p>
+                <p><strong>Last Updated:</strong> 
+                    {% if recent_announcements.0 %}
+                        {{ recent_announcements.0.updated_at|date:"M d, Y g:i A" }}
+                    {% else %}
+                        Never
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

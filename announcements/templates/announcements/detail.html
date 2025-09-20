@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ announcement.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'announcement_list' %}">Announcements</a></li>
+                <li class="breadcrumb-item active">{{ announcement.title|truncatewords:5 }}</li>
+            </ol>
+        </nav>
+
+        <article class="card">
+            <div class="card-header">
+                <h1 class="card-title mb-0">{{ announcement.title }}</h1>
+                <div class="text-muted mt-2">
+                    <small>
+                        📅 Posted on {{ announcement.created_at|date:"F d, Y \a\t g:i A" }}
+                        {% if announcement.updated_at != announcement.created_at %}
+                            <br>📝 Updated on {{ announcement.updated_at|date:"F d, Y \a\t g:i A" }}
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="announcement-content">
+                    <div class="summary-content">
+                        <p class="lead">{{ announcement.summary }}</p>
+                    </div>
+                    <div class="full-content" style="display: none;">
+                        <div class="content-text">
+                            {{ announcement.content|linebreaks }}
+                        </div>
+                    </div>
+                    <button id="toggle-content" class="btn btn-outline-primary mt-3">
+                        <span class="toggle-text">Read More</span> 
+                        <i class="toggle-icon">▼</i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'announcement_list' %}" class="btn btn-secondary">
+                        ← Back to All Announcements
+                    </a>
+                    <div class="text-muted small">
+                        Announcement ID: #{{ announcement.pk }}
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}

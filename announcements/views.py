@@ -12,3 +12,4 @@ def announcement_list(request):
 def announcement_detail(request, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
     return render(request, 'announcements/detail.html', {'announcement': announcement})
+
